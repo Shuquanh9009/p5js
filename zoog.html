@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+        function setup() {
+            createCanvas(800,600);
+        }
+
+        function draw() {
+            strokeWeight(5)
+           stroke('black')
+            //the face
+           fill(225,36,98)
+            rect(200,200,180,100)
+            quad(260,140,200,200,380,200,440,140)
+            quad(380,200,380,300,440,240,440,140)
+             //the eyes
+            strokeWeight(2)
+            fill(25,50,220)
+            ellipse(260,240,30,30)
+            ellipse(320,240,30,30)
+            //the ear 
+            fill('black')
+            rect(400,220,10,20)
+            //the nose and mouth
+            textSize(10)
+            text("-",285,260)
+            textSize(50)
+            text("-----",250,290)
+            //the body
+            strokeWeight(3)
+            stroke('blue')
+            fill("green")
+            rect(260,300,80,98)
+            quad(340,302,340,398,380,370,380,300)
+            //the blast wave
+            strokeWeight(3)
+            stroke(218,160,30)
+            line(260,410,240,440)
+            line(280,410,270,440)
+            line(300,410,290,440)
+            line(315,410,315,440)
+            line(325,410,330,440)
+            line(340,410,345,440)
+            line(350,410,355,440)
+            line(360,410,365,440)
+            //the word
+            textSize(40)
+            text('Meep!!',50,300)
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/shuquanh9009/p5js/blob/gh-pages/FILENAME.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
