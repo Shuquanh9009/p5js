@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var ballX; 
+        var ballY;
+        var ballX1;
+        var ballY1;
+        var ballSpeedX = 0;
+        var ballSpeedY = 0;
+        var paddleHeight = 30;
+        var w = 200
+        var ballSpeedX1 = 0;
+        var ballSpeedY1 = 0;
+        var size = 30
+        var score =0
+        var r = random (0,255)
+        var g = random(0,255)
+        var b = random (0,255)
+
+        function setup() {
+            createCanvas(800,600);
+            noCursor();//mouse pointer doesn't appear in the canvas
+            ballX = random(width);//set ball's x value
+            ballY = random(height/2);//set ball's y value
+            ballX1 = random(width/8);//set ball's x value
+            ballY1 = random(height/4);//set ball's y value
+            size =30 //set var size's value to 30,this is fo rthe size of the circle
+            r = random (0,255) //random color for the ball
+            g = random (0,255)//random color for the ball
+            b = random (0,255)//random color for the ball
+        }
+
+        function draw() {
+            background(128);// set the background to 128 looks like grey
+              moveBall(); // calls function moveBall
+                checkCollide();// calls function checkCollide
+                  checkCollide2();// calls function checkCollide2
+                    drawPaddle();// calls function drawPaddle
+                      drawBall();// calls function drawBall
+                        drawBall2();// calls function drawBall2
+             size = constrain (size,5,30) // constrains size value
+             w = constrain(w,30,200) //constrains w value
+             ballSpeedX = constrain(ballSpeedX,-12,12) //constrains the ball speed for ballSpeedX
+              ballSpeedY = constrain(ballSpeedY,-12,12)//constrains the ball speed for ballSpeedY
+               ballSpeedX1 = constrain(ballSpeedX1,-12,12)//constrains the ball speed for ballSpeedX1
+                ballSpeedY1 = constrain(ballSpeedY1,-12,12)//constrains the ball speed for ballSpeedY1
+                r=random(0,255) // generates random value for r between 0-255
+                 g=random(0,255)// generates random value for g between 0-255
+                  b=random(0,255)// generates random value for b between 0-255
+                scoreboard();// calls function scoreboard
+                 
+                 
+        }
+        function mousePressed(){
+          //sets a if statement when ballSpeedX is equal to 0, ballSpeedX and ballSpeedY will change to 5.
+          if (ballSpeedX ==0){  
+             ballSpeedX= 5;//direction of the ball's movement
+             ballSpeedY= 5;//direction of the ball's movement
+          }
+           //sets a if statement when ballSpeedX1 is equal to 0, ballSpeedX1 and ballSpeedY1 will change to -5.
+          if (ballSpeedX1 == 0){
+            ballSpeedX1=-5; //direction of the ball's movement
+            ballSpeedY1=-5;//direction of the ball's movement
+          }
+          
+        }
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX; //adds ball's x value with it's speed
+            ballY = ballY + ballSpeedY;//adds ball's y value with it's speed
+          
+          
+            ballX1 = ballX1 + ballSpeedX1;//adds ball's x value with it's speed
+            ballY1 = ballY1 + ballSpeedY1;//adds ball's y value with it's speed
+            
+
+            console.log("ballSpeedX: " + ballSpeedX + 
+                        ", ballSpeedY: " + ballSpeedY);
+        }
+
+        function checkCollide() {
+            // ballX less than 0 or ballX greater than width, ballSpeedX will multiply by negative 1
+          
+          if (ballX < 0 || ballX > width ) { 
+                ballSpeedX = ballSpeedX * -1;
+                
+            }
+          // ballY less than 0 or ballY greater than width, ballSpeedY will multiply by negative 1
+            if (ballY < 0 ) {
+                ballSpeedY = ballSpeedY * -1;
+               
+            }
+          // ballY is greater than the height subtract paddleHeight's value, or ballX is greater
+          //than mouseX and ballX is less than mouseX + w, ballSpeedY will multiply by negative 1 in order to bounce off the paddle.
+          //Then ballSpeedX&Y will be change by multiplying by 1.3 to make it go faster.
+            if (ballY > height - paddleHeight ) {
+                if (ballX > mouseX && ballX < mouseX + w ) {
+                    ballSpeedY = ballSpeedY * -1;
+                    ballSpeedX = ballSpeedX * 1.3 ;
+                    ballSpeedY = ballSpeedY * 1.3 ;
+                    score +=1
+                    
+                    w -= 10
+                    size-= 5
+                  
+                    
+                    
+                }
+                else {
+                  // //game will end if the ball touches the bottom of the canvas
+                  text("GAME OVER!", width / 2, height / 2);
+                    noLoop();
+                }
+            }
+        }
+         function checkCollide2(){
+           // ballX1 less than 0 or ballX1 greater than width, ballSpeedX1 will multiply by negative 1
+           if ( ballX1 < 0 || ballX1 > width) {
+               ballSpeedX1 = ballSpeedX1 * -1;
+            }
+             // ballY1 less than 0 or ballY1 greater than width, ballSpeedY1 will multiply by negative 1
+           if ( ballY1 < 0) {
+               
+                ballSpeedY1 = ballSpeedY1 * -1;
+            }
+            // ballY1 is greater than the height subtract paddleHeight's value, or ballX1 is greater
+          //than mouseX and ballX1 is less than mouseX + w, ballSpeedY1 will multiply by negative 1 in order to bounce off the paddle.
+          //Then ballSpeedX1&Y1 will be change by multiplying by 1.3 to make it go faster.
+           
+           if ( ballY1 > height - paddleHeight) {
+                if ( ballX1 > mouseX &&  ballX1 < mouseX + w) {
+                    ballSpeedY1 = ballSpeedY1 * -1;
+                    
+                    ballSpeedX1 = ballSpeedX1 * 1.2 ;
+                    ballSpeedY1 = ballSpeedY1 * 1.2 ;
+                    score +=1
+                    w -= 10
+                    size-= 5
+                }   else {
+                    //game will end if the ball touches the bottom of the canvas
+                  text("GAME OVER!", width / 2, height / 2);
+                    noLoop();
+                }
+         }
+    }
+
+        function drawBall() {
+            noStroke();// no stroke
+            fill(r,g,b)//sets color of the ball to be random
+          ellipse(ballX, ballY, size, size); // draws the ball
+            
+            
+           
+        }
+        
+       function drawBall2() {
+            noStroke();// no stroke
+         fill(r,g,b)//sets color of the ball to be random
+            ellipse(ballX1, ballY1, size, size);// draws the ball
+        }
+        function drawPaddle() {
+            strokeWeight(4);// sets the strokeWeight to 4
+            rect(mouseX, height - paddleHeight - 4, w, paddleHeight);// draws the paddle and sets its size and location
+        }
+       function scoreboard(){
+         fill(0);//sets color of the text black
+         textSize(30);//sets the text display size to 30
+         text("score = " + str(score),50,50);// displays text "score = with the variable score's value"
+         if (score == 15){// if the score equals to 15, it will display "You Win!" and ends the loop or game
+           text("You Win!!",width/2,height/2);
+           noLoop();
+           
+         }
+       }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/shuquanh9009/p5js/blob/gh-pages/pong-final.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
