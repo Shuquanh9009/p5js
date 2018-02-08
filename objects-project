@@ -1,0 +1,171 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Objects: Simple Cars</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+      
+      
+      var bubbles=[];//bubbles arrays
+      var block=[];//block arrays
+      var w;// width value of the block
+      var h;// height value of the block
+      var score;// it will set the socre to 0to be added on or subtract
+      var s = [] //s[0] will be min s[1] will be seconds
+      
+      function setup() {
+        createCanvas(500,500);
+        block= new Block();//calls funtion block
+        w=50;//sets w to 50
+        h=30;//sets h to 30
+        score=0;//sets score to 0
+        s[0] = 0 //sets s[0]/minute to 0
+        s[1] = 0//sets s[1]/seconds to 0
+        
+      }
+      
+      function draw() {
+        background(0);
+        //frameCount total divided by 60 with no remainder means perfect second
+        if (frameCount % 60 ==0){
+          //add one second
+          s[1] = s[1] + 1
+        }
+        //seconds add up to 60
+        if (s[1] == 60){
+          //turn seconds into 0, add 1 min
+          s[1] = 0
+          s[0] = s[0] + 1
+        }
+        
+        //for loop for the bubbles to display and move
+        for(var i=0;i<bubbles.length;i++){
+          bubbles[i].move();
+          bubbles[i].display();
+        }
+        //if the # of bubbles = 20, function 'block' will appear and move
+        if (bubbles.length>=20){
+          
+          block.move();
+          block.display();
+        }
+         //displays the scoreboard
+        scoreboard();
+        text('time '+ s[0] + " : " + s[1], 345, 30);
+        
+      }
+      
+      //creates a new function called Bubble,which is the bubbles that will be appearing on the screen
+      function Bubble(){
+        this.x = random(width);//sets x to random width
+        this.y = random(height);// sets y to to random height
+        this.speed = random(1,6);//sets the speedrandomly between 1-6
+        this.r=random(255)//sets r to random between 255
+        this.g=random(255)//sets g to random between 255
+        this.b=random(255)//sets b to random between 255
+        
+        //makes the bubble move across the screen
+        this.move = function(){
+          this.x += this.speed;
+          if(this.x > width){
+            this.x = 0;
+            this.y = random(55,435);
+          }
+          
+        }
+        //makes the bubbles to display with random colors at different random spots
+        this.display = function(){
+          fill(this.r,this.g,this.b);
+          ellipse(this.x,this.y,80,80);
+        }
+      }
+      
+      function keyPressed(){
+        //when player click a or A, new bubbles will form
+        if (key=="a"||key=="A"){
+          bubbles.push(new Bubble)
+        }
+        bubbles.length=constrain(bubbles.length,0,20)//the maximum # of bubble the player could get from clicking a or A is 20
+      }
+     
+      //creates a new function called Block,which is the purple/dark blue block in the game
+      function Block(){
+        this.x =random(width);//sets x to random width
+        this.y = random(height);// sets y to to random height
+        this.speed = random(3,6);//sets the speedrandomly between 1-6
+        
+        //makes the block move across the screen
+        this.move = function(){
+          this.x += this.speed;
+          if(this.x > width){
+            this.x = 0;
+            this.y = random(55,435);
+          }
+          if (this.x<0){
+            this.x=0;
+            
+          }
+        }
+        //makes the block appear in the canvas with purple or dark blue color
+            this.display = function(){
+            fill(72,61,139)
+            rect(this.x,this.y,w,h)
+          }
+        }
+       
+        function mousePressed(){
+         //when the mouse pointer is inside of the block and click on it, player will get a increase of 1 point
+         //and the block will reappear at random height value from the left side of the canvas.
+         //the speed will be increased by 0.6 each time the player clicks on the block
+         //more bubble will appear on the canvas when the player clicks on the block.
+         if (mouseX>block.x && mouseY>block.y && mouseX< block.x+w && mouseY<block.y+h){
+           block.x=0;//sets block's value to 0 
+           block.y=random(55,435); //sets the block's y value randomly between 55-435
+           score +=1;//score will increase by 1
+           block.speed +=0.6;//the speed of the block will be increased by 0.6
+           bubbles.push(new Bubble)//new bubble will be added
+          
+           
+         }else{// if the player didn't click the mouse inside of the block, player's score will be subtracted by 1
+           score-=1//score will subtract by 1
+           
+         }
+         
+       }
+        
+        function scoreboard(){
+         fill(255);//sets color of the text black
+         textSize(30);//sets the text display size to 30
+         text("score = " + str(score),20,30);// displays text "score = with the variable score's value"
+         if (score == 15){// if the score equals to 15, it will display "You Win!" and ends the loop or game
+           text("You Win!!",width/2,height/2);0//displays you win
+           text("You finished the game with ",width*1/8,height/3);//displays you finish the game with
+           text( s[0]+" minute "+ s[1]+ " seconds",width*1/8,height/3+30);//displays the minute and seconds.
+           noLoop();
+           
+         }
+         score = constrain (score,0,10);//constrain the socre between 0-10
+        
+       }
+      
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/shuquanh9009/p5js/blob/master/objects-project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+
+</html>
